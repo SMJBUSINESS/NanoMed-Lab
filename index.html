@@ -62,55 +62,6 @@
             margin-bottom: 25px;
         }
 
-        /* Form Controls */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-        }
-
-        button.btn-primary {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), #0072ff);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button.btn-primary:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-        }
-
         /* Header Components */
         .dashboard-header {
             display: flex;
@@ -284,25 +235,8 @@
 
     <div class="container">
         
-        <!-- SCREEN 1: SIGN UP -->
-        <div id="screen-auth" class="panel">
-            <h2>NanoMed Lab</h2>
-            <p class="subtitle">Initialize your NanoChip medical profile</p>
-            <form id="auth-form" onsubmit="handleSignUp(event)">
-                <div class="form-group">
-                    <label>User ID</label>
-                    <input type="text" required placeholder="Enter ID">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" required placeholder="Enter Password">
-                </div>
-                <button type="submit" class="btn-primary">Create Bio-Account</button>
-            </form>
-        </div>
-
-        <!-- SCREEN 2: MAIN DASHBOARD -->
-        <div id="screen-dashboard" class="panel hidden">
+        <!-- MAIN DASHBOARD (Starts here now) -->
+        <div id="screen-dashboard" class="panel">
             <div class="dashboard-header">
                 <div class="brand">NanoMed Lab</div>
                 <button class="btn-subscribe" onclick="toggleModal(true)">Subscribe</button>
@@ -319,7 +253,7 @@
             </div>
         </div>
 
-        <!-- SCREEN 3: PROCESSING (30 Seconds) -->
+        <!-- PROCESSING SCREEN (30 Seconds) -->
         <div id="screen-processing" class="panel hidden">
             <div class="status-screen">
                 <div class="loader"></div>
@@ -330,8 +264,60 @@
             </div>
         </div>
 
-        <!-- SCREEN 4: COMPLETED (5 Seconds) -->
+        <!-- COMPLETED SCREEN (5 Seconds) -->
         <div id="screen-completed" class="panel hidden">
             <div class="status-screen">
                 <div class="success-icon">✓</div>
                 <h2>Dispensation Complete</h2>
+                <p class="subtitle" style="color: var(--accent);">NanoChips successfully deployed and operating.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SUBSCRIPTION MODAL POPUP -->
+    <div id="subscription-modal" class="modal-overlay">
+        <div class="modal">
+            <button class="btn-close" onclick="toggleModal(false)">×</button>
+            <h3>Premium Subscription</h3>
+            <p class="subtitle">Never run out of biometric optimization</p>
+            <div class="price">$500 / month</div>
+            <div class="benefits">
+                Get <strong>5 Standard Pill Sets + 1 Bonus Set</strong> delivered to your lab monthly.<br>
+                Includes unlimited global web-interface sync.
+            </div>
+            <button class="btn-primary" onclick="requestSubscription()">Apply Plan</button>
+        </div>
+    </div>
+
+    <script>
+        // Screen Navigation Logic
+        function showScreen(screenId) {
+            document.getElementById('screen-dashboard').classList.add('hidden');
+            document.getElementById('screen-processing').classList.add('hidden');
+            document.getElementById('screen-completed').classList.add('hidden');
+            
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        // NanoChip Activation and Timers
+        function triggerNanoChip(conditionName) {
+            document.getElementById('target-condition').innerText = conditionName;
+            showScreen('screen-processing');
+            
+            let timeLeft = 30;
+            const countdownEl = document.getElementById('countdown');
+            countdownEl.innerText = timeLeft + 's';
+            
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdownEl.innerText = timeLeft + 's';
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    executeCompletion();
+                }
+            }, 1000);
+        }
+
+        function executeCompletion() {
