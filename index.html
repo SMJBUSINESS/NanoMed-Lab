@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniPill - NanoMedical Interface</title>
+    <title>NanoMed Lab - Core Interface</title>
     <style>
         :root {
             --bg-color: #0a1128;
@@ -284,18 +284,18 @@
 
     <div class="container">
         
-        <!-- SCREEN 1: SIGN UP (Any ID/PW works) -->
+        <!-- SCREEN 1: SIGN UP -->
         <div id="screen-auth" class="panel">
-            <h2>OmniPill System</h2>
+            <h2>NanoMed Lab</h2>
             <p class="subtitle">Initialize your NanoChip medical profile</p>
             <form id="auth-form" onsubmit="handleSignUp(event)">
                 <div class="form-group">
                     <label>User ID</label>
-                    <input type="text" required placeholder="Enter any ID">
+                    <input type="text" required placeholder="Enter ID">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" required placeholder="Enter any password">
+                    <input type="password" required placeholder="Enter Password">
                 </div>
                 <button type="submit" class="btn-primary">Create Bio-Account</button>
             </form>
@@ -304,7 +304,7 @@
         <!-- SCREEN 2: MAIN DASHBOARD -->
         <div id="screen-dashboard" class="panel hidden">
             <div class="dashboard-header">
-                <div class="brand">OmniPill Core</div>
+                <div class="brand">NanoMed Lab</div>
                 <button class="btn-subscribe" onclick="toggleModal(true)">Subscribe</button>
             </div>
             
